@@ -1,2 +1,2 @@
 # VeyroOS
-An chrome extension
+An edge and chrome extension
