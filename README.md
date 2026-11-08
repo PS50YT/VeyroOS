@@ -18,5 +18,3 @@ Elevate your browsing experience with a sleek, minimalist design inspired by mac
 <img src="https://raw.githubusercontent.com/PS50YT/VeyroOS/refs/heads/main/Screenshot%202026-11-08%20153012.png" alt="VeyroOS" width="100%" height="100%">
 <img src="https://raw.githubusercontent.com/PS50YT/VeyroOS/refs/heads/main/Screenshot%202026-11-08%20153050.png" alt="VeyroOS" width="100%" height="100%">
 <img src="https://raw.githubusercontent.com/PS50YT/VeyroOS/refs/heads/main/Screenshot%202026-11-08%20153100.png" alt="VeyroOS" width="100%" height="100%">
-<img src="w3html.gif" alt="VeyroOS" width="100%" height="100%">
-<img src="w3html.gif" alt="VeyroOS" width="100%" height="100%">
