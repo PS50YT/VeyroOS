@@ -4,6 +4,8 @@
 
 Elevate your browsing experience with a sleek, minimalist design inspired by macOS and Windows 11. This stylish extension reimagines your new tab page, blending elegance and functionality to create a beautiful, personalized dashboard.
 
+<a href="https://nam.safelink.emails.azure.net/redirect/?destination=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fdetail%2Ffmialcgggmijifbjmebnjdjmnhpfifom&p=bT05YWI2MGNhNS0xMTQxLTRlMGUtYjdjZS1jZTRhNWRjZTA5Y2MmdT1hZW8mbD1mbWlhbGNnZ2dtaWppZmJqbWVibmpkam1uaHBmaWZvbQ%3D%3D">Also Available on Edge Web Add-ons</a>
+
 🌟 Key Features You’ll Love:
 
 1. Drag, resize, maximize and minimize apps, with a taskbar that keeps track tabs.
