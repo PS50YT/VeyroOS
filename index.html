@@ -1,0 +1,991 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeyroOS</title>
+
+<style>
+:root {
+  --bg: #080b18;
+  --panel: #101526;
+  --panel2: #151c30;
+  --border: #252e45;
+  --text: #edf1ff;
+  --muted: #8995b0;
+  --blue: #38bdf8;
+  --purple: #9b5cff;
+  --green: #43d9a3;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+a:hover { text-decoration: underline; }
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+header {
+  height: 68px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  background: #0b1020;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #000000, #6b45ff);
+  color: white;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--panel2);
+  color: var(--text);
+}
+
+.btn.primary {
+  background: linear-gradient(120deg, #2563eb, #7c3aed);
+  border: none;
+  font-weight: 700;
+}
+
+.btn:hover { opacity: .85; }
+
+main {
+  max-width: 1250px;
+  margin: auto;
+  padding: 35px 22px;
+}
+
+.hero {
+  padding: 35px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at top right, #38216c55, transparent 50%),
+    linear-gradient(135deg, #11182b, #0b1020);
+  margin-bottom: 24px;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(30px, 5vw, 48px);
+  margin: 14px 0;
+  letter-spacing: -1.5px;
+}
+
+.gradient {
+  background: linear-gradient(90deg, #38bdf8, #a78bfa);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.description {
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 700px;
+}
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.stat {
+  padding: 10px 15px;
+  background: #151d31;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stat strong { color: white; }
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 25px;
+}
+
+.tab {
+  padding: 14px 20px;
+  background: transparent;
+  color: var(--muted);
+  border: none;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.tab.active {
+  color: white;
+  border-bottom-color: var(--blue);
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 22px;
+}
+
+.content, aside {
+  min-width: 0;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.card-head {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.card-head h2 {
+  font-size: 15px;
+  margin: 0;
+}
+
+.card-body { padding: 20px; }
+
+.file-row, .issue-row, .release-row {
+  padding: 15px 20px;
+  border-bottom: 1px solid #20283b;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.file-row:last-child,
+.issue-row:last-child,
+.release-row:last-child {
+  border-bottom: none;
+}
+
+.file-row:hover { background: #172036; }
+
+.file-name {
+  color: #dce5ff;
+  cursor: pointer;
+  flex: 1;
+  overflow-wrap: anywhere;
+}
+
+.file-name:hover { color: var(--blue); }
+
+.file-icon { width: 22px; }
+
+.small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.markdown {
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.markdown h1, .markdown h2, .markdown h3 {
+  font-size: 23px;
+  margin-top: 30px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.markdown h1 { font-size: 30px; }
+
+.markdown p { color: #c5cee2; }
+
+.markdown img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+.markdown pre, pre {
+  background: #070b15;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 15px;
+  overflow: auto;
+}
+
+.markdown code {
+  background: #1c2740;
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+.markdown pre code {
+  background: none;
+  padding: 0;
+}
+
+.markdown table {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+
+.markdown td, .markdown th {
+  border: 1px solid var(--border);
+  padding: 8px 12px;
+}
+
+.markdown blockquote {
+  border-left: 3px solid var(--purple);
+  padding-left: 15px;
+  color: var(--muted);
+}
+
+.badge {
+  font-size: 11px;
+  padding: 4px 8px;
+  border-radius: 20px;
+  background: #163a32;
+  color: var(--green);
+  white-space: nowrap;
+}
+
+.badge.closed {
+  background: #302044;
+  color: #c4a2ff;
+}
+
+.issue-title {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.issue-title:hover { color: var(--blue); }
+
+.sidebar-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.sidebar-item:last-child { border: none; }
+
+.sidebar-item strong {
+  display: block;
+  color: white;
+  margin-bottom: 5px;
+}
+
+.search {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: #080d1b;
+  color: white;
+  outline: none;
+}
+
+.search:focus { border-color: var(--blue); }
+
+.loading, .empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--muted);
+}
+
+.error { color: #ff7777; }
+
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 25px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+@media(max-width:800px) {
+  .layout { grid-template-columns: 1fr; }
+  aside { order: -1; }
+  header { padding: 0 15px; }
+  .hero { padding: 22px; }
+}
+
+@media(max-width:480px) {
+  .brand { font-size: 16px; }
+  .btn { padding: 9px 10px; font-size: 12px; }
+  .tab { padding: 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo"><img src="https://raw.githubusercontent.com/PS50YT/VeyroOS/refs/heads/main/icon.png" height="20px" width='20px'></div>
+    <span>VeyroOS <span class="gradient">GitHub</span></span>
+  </div>
+
+  <div class="header-actions">
+    <button class="btn" onclick="refreshAll()">↻ Refresh</button>
+    <a class="btn primary" id="repoButton"
+       href="https://github.com/PS50YT/VeyroOS"
+       target="_blank">GitHub ↗</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="eyebrow">Chrome & Edge Extension</div>
+  <h1><span class="gradient">VeyroOS</span></h1>
+  <p class="description" id="description">
+    A modern browser-based desktop environment.
+  </p>
+
+  <div class="stats">
+    <div class="stat">⭐ <strong id="stars">—</strong> Stars</div>
+    <div class="stat">⑂ <strong id="forks">—</strong> Forks</div>
+    <div class="stat">🐛 <strong id="issuesCount">—</strong> Issues</div>
+    <div class="stat">📦 <strong id="license">—</strong></div>
+    <div class="stat">🕒 <strong id="updated">—</strong></div>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="readme">📖 README</button>
+  <button class="tab" data-tab="code">💻 Code</button>
+  <button class="tab" data-tab="releases">📦 Releases</button>
+  <button class="tab" data-tab="issues">🐛 Issues</button>
+</nav>
+
+<div class="layout">
+  <section class="content" id="content">
+    <div class="loading">Loading VeyroOS repository...</div>
+  </section>
+
+  <aside>
+    <div class="card">
+      <div class="card-head">
+        <h2>About VeyroOS</h2>
+      </div>
+
+      <div class="card-body">
+        <div class="sidebar-item">
+          <strong>Repository</strong>
+          <a id="sidebarRepo"
+             href="https://github.com/PS50YT/VeyroOS"
+             target="_blank">PS50YT / VeyroOS ↗</a>
+        </div>
+
+        <div class="sidebar-item">
+          <strong>Default Branch</strong>
+          <span id="branch">—</span>
+        </div>
+
+        <div class="sidebar-item">
+          <strong>Language</strong>
+          <span id="language">—</span>
+        </div>
+
+        <div class="sidebar-item">
+          <strong>Latest Release</strong>
+          <span id="latestRelease">—</span>
+        </div>
+
+        <div class="sidebar-item">
+          <strong>Last Updated</strong>
+          <span id="lastUpdated">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head">
+        <h2>Quick Links</h2>
+      </div>
+
+      <div class="card-body">
+        <div class="sidebar-item">
+          <a href="https://github.com/PS50YT/VeyroOS"
+             target="_blank">Go to Repository ↗</a>
+        </div>
+
+        <div class="sidebar-item">
+          <a href="https://github.com/PS50YT/VeyroOS/releases"
+             target="_blank">All Releases ↗</a>
+        </div>
+
+        <div class="sidebar-item">
+          <a href="https://github.com/PS50YT/VeyroOS/issues"
+             target="_blank">Report an Issue ↗</a>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+</main>
+
+<footer>
+  VeyroOS · Open Source · Powered by GitHub
+</footer>
+
+<script>
+const OWNER = "PS50YT";
+const REPO = "VeyroOS";
+
+const API = `https://api.github.com/repos/${OWNER}/${REPO}`;
+const REPO_URL = `https://github.com/${OWNER}/${REPO}`;
+
+let currentTab = "readme";
+let repository = null;
+let readmeHTML = "";
+let tree = [];
+let releases = [];
+let issues = [];
+let currentPath = "";
+let currentFile = null;
+
+const content = document.getElementById("content");
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[c]);
+}
+
+async function github(endpoint) {
+  const response = await fetch(`${API}${endpoint}`, {
+    headers: {
+      "Accept": "application/vnd.github+json"
+    }
+  });
+
+  if (!response.ok) {
+    if (response.status === 403) {
+      throw new Error("GitHub API rate limit reached. Try again later.");
+    }
+
+    if (response.status === 404) {
+      throw new Error("Repository or requested content not found.");
+    }
+
+    throw new Error(`GitHub API error: ${response.status}`);
+  }
+
+  return response.json();
+}
+
+function formatDate(date) {
+  if (!date) return "—";
+
+  return new Date(date).toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+}
+
+function showError(error) {
+  content.innerHTML = `
+    <div class="card">
+      <div class="loading error">
+        ${escapeHTML(error.message)}
+        <br><br>
+        <button class="btn" onclick="refreshAll()">Retry</button>
+      </div>
+    </div>
+  `;
+}
+
+async function loadRepository() {
+  repository = await github("");
+
+  document.getElementById("description").textContent =
+    repository.description || "VeyroOS GitHub Repository";
+
+  document.getElementById("stars").textContent =
+    repository.stargazers_count;
+
+  document.getElementById("forks").textContent =
+    repository.forks_count;
+
+  document.getElementById("issuesCount").textContent =
+    repository.open_issues_count;
+
+  document.getElementById("license").textContent =
+    repository.license?.spdx_id || "Unknown";
+
+  document.getElementById("updated").textContent =
+    formatDate(repository.updated_at);
+
+  document.getElementById("branch").textContent =
+    repository.default_branch;
+
+  document.getElementById("language").textContent =
+    repository.language || "Multiple";
+
+  document.getElementById("lastUpdated").textContent =
+    formatDate(repository.updated_at);
+}
+
+async function loadReadme() {
+  const response = await fetch(
+    `${API}/readme`,
+    {
+      headers: {
+        "Accept": "application/vnd.github.html+json"
+      }
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Unable to load README.md");
+  }
+
+  readmeHTML = await response.text();
+}
+
+async function loadTree(path = "") {
+  currentPath = path;
+
+  const url = path
+    ? `/contents/${path.split("/").map(encodeURIComponent).join("/")}`
+    : `/contents`;
+
+  const result = await github(url);
+
+  tree = Array.isArray(result) ? result : [result];
+
+  renderCode();
+}
+
+async function loadReleases() {
+  releases = await github("/releases?per_page=30");
+  renderReleases();
+}
+
+async function loadIssues() {
+  issues = await github(
+    "/issues?state=all&per_page=50&sort=updated"
+  );
+
+  // Pull requests are also returned by the issues endpoint.
+  issues = issues.filter(issue => !issue.pull_request);
+
+  renderIssues();
+}
+
+function setTab(tab) {
+  currentTab = tab;
+
+  document.querySelectorAll(".tab").forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.tab === tab
+    );
+  });
+
+  if (tab === "readme") {
+    renderReadme();
+  }
+
+  if (tab === "code") {
+    loadTree(currentPath).catch(showError);
+  }
+
+  if (tab === "releases") {
+    renderReleases();
+  }
+
+  if (tab === "issues") {
+    renderIssues();
+  }
+}
+
+document.querySelectorAll(".tab").forEach(button => {
+  button.addEventListener("click", () => {
+    setTab(button.dataset.tab);
+  });
+});
+
+function renderReadme() {
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-head">
+        <h2>📖 README.md</h2>
+        <a href="${REPO_URL}/blob/${repository.default_branch}/README.md"
+           target="_blank">View on GitHub ↗</a>
+      </div>
+
+      <div class="card-body markdown">
+        ${readmeHTML || '<div class="empty">README.md is empty.</div>'}
+      </div>
+    </div>
+  `;
+
+  // Rewrite relative image links to use the repository.
+  content.querySelectorAll(".markdown img").forEach(img => {
+    const src = img.getAttribute("src");
+
+    if (src && !src.startsWith("http") && !src.startsWith("data:")) {
+      img.src = `${REPO_URL}/raw/${repository.default_branch}/${src}`;
+    }
+  });
+}
+
+function renderCode() {
+  const isRoot = !currentPath;
+
+  const breadcrumb = `
+    <div class="card-head">
+      <h2>💻 Code</h2>
+      <a href="${REPO_URL}/tree/${repository.default_branch}/${currentPath}"
+         target="_blank">GitHub ↗</a>
+    </div>
+  `;
+
+  let rows = "";
+
+  if (!isRoot) {
+    rows += `
+      <div class="file-row">
+        <span class="file-icon">📁</span>
+        <span class="file-name" onclick="goParent()">..</span>
+      </div>
+    `;
+  }
+
+  rows += tree.map(item => `
+    <div class="file-row">
+      <span class="file-icon">
+        ${item.type === "dir" ? "📁" : "📄"}
+      </span>
+
+      <span class="file-name"
+            onclick="openItem('${escapeHTML(item.path)}','${item.type}')">
+        ${escapeHTML(item.name)}
+      </span>
+
+      <span class="small">
+        ${item.type === "dir" ? "Folder" : "File"}
+      </span>
+    </div>
+  `).join("");
+
+  content.innerHTML = `
+    <div class="card">
+      ${breadcrumb}
+      ${rows || '<div class="empty">No files found.</div>'}
+    </div>
+
+    <div id="fileViewer"></div>
+  `;
+}
+
+async function openItem(path, type) {
+  if (type === "dir") {
+    await loadTree(path);
+    return;
+  }
+
+  currentFile = path;
+
+  const viewer = document.getElementById("fileViewer");
+
+  viewer.innerHTML = `
+    <div class="card">
+      <div class="card-head">
+        <h2>📄 ${escapeHTML(path.split("/").pop())}</h2>
+        <a href="${REPO_URL}/blob/${repository.default_branch}/${path}"
+           target="_blank">View on GitHub ↗</a>
+      </div>
+      <div class="loading">Loading file...</div>
+    </div>
+  `;
+
+  try {
+    const file = await github(
+      `/contents/${path.split("/").map(encodeURIComponent).join("/")}`
+    );
+
+    if (file.encoding !== "base64") {
+      throw new Error("Unsupported file format");
+    }
+
+    const decoded = decodeURIComponent(
+      Array.from(
+        atob(file.content.replace(/\s/g, ""))
+      ).map(c => "%" + c.charCodeAt(0).toString(16).padStart(2,"0")).join("")
+    );
+
+    viewer.innerHTML = `
+      <div class="card">
+        <div class="card-head">
+          <h2>${escapeHTML(path)}</h2>
+          <button class="btn" onclick="copyCode()">Copy</button>
+        </div>
+
+        <div class="card-body">
+          <pre><code id="codeText">${escapeHTML(decoded)}</code></pre>
+        </div>
+      </div>
+    `;
+  } catch (error) {
+    viewer.innerHTML = `
+      <div class="card">
+        <div class="loading error">${escapeHTML(error.message)}</div>
+      </div>
+    `;
+  }
+}
+
+function copyCode() {
+  const code = document.getElementById("codeText");
+
+  if (code) {
+    navigator.clipboard.writeText(code.textContent);
+  }
+}
+
+function goParent() {
+  const parts = currentPath.split("/");
+  parts.pop();
+
+  loadTree(parts.join("/")).catch(showError);
+}
+
+function renderReleases() {
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-head">
+        <h2>📦 Releases</h2>
+        <a href="${REPO_URL}/releases" target="_blank">
+          All Releases ↗
+        </a>
+      </div>
+
+      ${
+        releases.length
+          ? releases.map(release => `
+            <div class="release-row">
+              <div style="flex:1">
+                <div class="issue-title">
+                  ${escapeHTML(release.name || release.tag_name)}
+                </div>
+
+                <div class="small">
+                  ${escapeHTML(release.tag_name)}
+                  · ${formatDate(release.published_at)}
+                </div>
+
+                ${
+                  release.prerelease
+                    ? '<span class="badge closed">Pre-release</span>'
+                    : '<span class="badge">Latest / Stable</span>'
+                }
+
+                <p class="description">
+                  ${escapeHTML(
+                    (release.body || "No release notes.")
+                      .slice(0, 300)
+                  )}
+                </p>
+
+                <a href="${release.html_url}" target="_blank">
+                  Release Details ↗
+                </a>
+
+                ${
+                  release.assets.map(asset => `
+                    <div class="small" style="margin-top:8px">
+                      <a href="${asset.browser_download_url}">
+                        ⬇ ${escapeHTML(asset.name)}
+                      </a>
+                    </div>
+                  `).join("")
+                }
+              </div>
+            </div>
+          `).join("")
+          : '<div class="empty">No releases published yet.</div>'
+      }
+    </div>
+  `;
+}
+
+function renderIssues() {
+  content.innerHTML = `
+    <div class="card">
+      <div class="card-head">
+        <h2>🐛 Issues</h2>
+        <a href="${REPO_URL}/issues" target="_blank">
+          All Issues ↗
+        </a>
+      </div>
+
+      <div class="card-body">
+        <input
+          class="search"
+          id="issueSearch"
+          placeholder="Search issues..."
+          oninput="filterIssues()"
+        >
+      </div>
+
+      <div id="issueList">
+        ${issueRows(issues)}
+      </div>
+    </div>
+  `;
+}
+
+function issueRows(list) {
+  if (!list.length) {
+    return '<div class="empty">No issues found.</div>';
+  }
+
+  return list.map(issue => `
+    <div class="issue-row">
+      <div style="flex:1">
+        <div>
+          <a class="issue-title"
+             href="${issue.html_url}"
+             target="_blank">
+            #${issue.number} ${escapeHTML(issue.title)}
+          </a>
+        </div>
+
+        <div class="small">
+          ${escapeHTML(issue.user?.login || "Unknown")}
+          · ${formatDate(issue.updated_at)}
+        </div>
+      </div>
+
+      <span class="badge ${issue.state === "closed" ? "closed" : ""}">
+        ${issue.state}
+      </span>
+    </div>
+  `).join("");
+}
+
+function filterIssues() {
+  const search = document.getElementById("issueSearch")
+    .value.toLowerCase();
+
+  const filtered = issues.filter(issue =>
+    issue.title.toLowerCase().includes(search) ||
+    String(issue.number).includes(search)
+  );
+
+  document.getElementById("issueList").innerHTML =
+    issueRows(filtered);
+}
+
+async function refreshAll() {
+  content.innerHTML = `
+    <div class="loading">Refreshing repository information...</div>
+  `;
+
+  try {
+    await loadRepository();
+
+    await Promise.all([
+      loadReadme(),
+      loadReleases(),
+      loadIssues()
+    ]);
+
+    if (currentTab === "readme") {
+      renderReadme();
+    }
+
+    if (currentTab === "code") {
+      await loadTree(currentPath);
+    }
+
+    if (currentTab === "releases") {
+      renderReleases();
+    }
+
+    if (currentTab === "issues") {
+      renderIssues();
+    }
+  } catch (error) {
+    showError(error);
+  }
+}
+
+// Initial page load.
+refreshAll();
+</script>
+
+</body>
+</html>
